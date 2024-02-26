@@ -13,41 +13,53 @@ class SimpleBankAccountTest {
     private AccountHolder accountHolder;
     private BankAccount bankAccount;
 
+    private double initialBalance = 0;
+
     @BeforeEach
     void beforeEach(){
         accountHolder = new AccountHolder("Mario", "Rossi", 1);
-        bankAccount = new SimpleBankAccount(accountHolder, 0);
+        bankAccount = new SimpleBankAccount(accountHolder, initialBalance);
     }
 
     @Test
     void testInitialBalance() {
-        assertEquals(0, bankAccount.getBalance());
+        assertEquals(initialBalance, bankAccount.getBalance());
     }
 
     @Test
     void testDeposit() {
-        bankAccount.deposit(accountHolder.getId(), 100);
-        assertEquals(100, bankAccount.getBalance());
+        double depositAmount = 100;
+        bankAccount.deposit(accountHolder.getId(), depositAmount);
+        assertEquals(depositAmount, bankAccount.getBalance());
     }
 
     @Test
     void testWrongDeposit() {
-        bankAccount.deposit(accountHolder.getId(), 100);
-        bankAccount.deposit(2, 50);
-        assertEquals(100, bankAccount.getBalance());
+        double depositAmount = 100;
+        double wrongDepositAmount = 50;
+        int wrongUserId = 2;
+        bankAccount.deposit(accountHolder.getId(), depositAmount);
+        bankAccount.deposit(wrongUserId, wrongDepositAmount);
+        assertEquals(depositAmount, bankAccount.getBalance());
     }
 
     @Test
     void testWithdraw() {
-        bankAccount.deposit(accountHolder.getId(), 100);
-        bankAccount.withdraw(accountHolder.getId(), 70);
-        assertEquals(30, bankAccount.getBalance());
+        double depositAmount = 100;
+        double withdrawAmount = 70;
+        double expectedBalance = depositAmount - withdrawAmount;
+        bankAccount.deposit(accountHolder.getId(), depositAmount);
+        bankAccount.withdraw(accountHolder.getId(), withdrawAmount);
+        assertEquals(expectedBalance, bankAccount.getBalance());
     }
 
     @Test
     void testWrongWithdraw() {
-        bankAccount.deposit(accountHolder.getId(), 100);
-        bankAccount.withdraw(2, 70);
-        assertEquals(100, bankAccount.getBalance());
+        double depositAmount = 100;
+        double wrongDepositAmount = 70;
+        int wrongUserId = 2;
+        bankAccount.deposit(accountHolder.getId(), depositAmount);
+        bankAccount.withdraw(wrongUserId, wrongDepositAmount);
+        assertEquals(depositAmount, bankAccount.getBalance());
     }
 }
