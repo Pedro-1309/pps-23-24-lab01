@@ -2,7 +2,7 @@ package example.model;
 
 public class SimpleBankAccountWithAtm extends SimpleBankAccount {
 
-    public static final double TRANSACTION_FEE = 1; 
+    private final static double TRANSACTION_FEE = 1; 
 
     public SimpleBankAccountWithAtm(AccountHolder holder, double balance) {
         super(holder, balance);
@@ -18,4 +18,7 @@ public class SimpleBankAccountWithAtm extends SimpleBankAccount {
         super.withdraw(userID, amount - TRANSACTION_FEE);
     }
     
+    public static double getTransactionFee() {
+        return TRANSACTION_FEE;
+    }
 }
